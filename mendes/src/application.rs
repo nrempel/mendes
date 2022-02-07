@@ -454,7 +454,7 @@ where
         _: &mut PathState,
         _: &mut Option<A::RequestBody>,
     ) -> Result<Self, A::Error> {
-        let query = req.uri.query().ok_or(Error::QueryMissing)?;
+        let query = req.uri.query().unwrap_or_default();
         let data =
             serde_urlencoded::from_bytes::<T>(query.as_bytes()).map_err(Error::QueryDecode)?;
         Ok(Query(data))
